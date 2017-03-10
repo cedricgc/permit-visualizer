@@ -1,0 +1,5 @@
+future==0.16.0
+requests==2.12.1
+six==1.10.0
+sodapy==1.4.3
+structlog==16.1.0
