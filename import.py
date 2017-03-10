@@ -50,38 +50,17 @@ def main():
         log.error('Unable to query count of dataset')
         return 1
 
+    log.info('Record count', count=count)
+
     log.debug('Fetching permits')
 
-    query = {
-        'select': 'project_id,applieddate,latitude,longitude,original_zip',
-        'where': 'applieddate IS NOT NULL AND location IS NOT NULL',
-        'order': 'project_id DESC',
-        'limit': count,
-    }
-
-    try:
-        permits = client.get(dataset_id, **query)
-    except requests.exceptions.ConnectionError:
-        event = 'Unable to establish connection to dataset server'
-        log.error(event, exc_info=True)
-        return 1
-    except requests.exceptions.HTTPError:
-        event = 'Received an error HTTP response from dataset server'
-        log.error(event, exc_info=True)
-        return 1
-    except requests.exceptions.Timeout:
-        event = 'Query to dataset timed out'
-        log.error(event, exc_info=True)
-        return 1
-    except requests.exceptions.RequestException as e:
-        event = 'Received unexpected error when fetching dataset'
-        log.error(event, exc_info=True)
+    permits = fetch_permits(client, dataset_id, count)
+    if permits == None:
+        log.error('Unable to fetch permit records')
         return 1
 
     for permit in permits:
         log.info('Permit entry', **permit)
-
-    log.info('Total number of permits', count=len(permits))
 
     return 0
 
@@ -108,7 +87,7 @@ def count_dataset(client, dataset_id):
         event = 'Query to dataset timed out'
         log.error(event, exc_info=True)
         return None
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         event = 'Received unexpected error when fetching dataset'
         log.error(event, exc_info=True)
         return None
@@ -119,6 +98,39 @@ def count_dataset(client, dataset_id):
     count = count_query[0]['count']
 
     return count
+
+
+def fetch_permits(client, dataset_id, permit_count):
+    """Fetches permit records from dataset"""
+    log = structlog.get_logger()
+
+    query = {
+        'select': 'project_id,applieddate,latitude,longitude,original_zip',
+        'where': 'applieddate IS NOT NULL AND location IS NOT NULL',
+        'order': 'project_id DESC',
+        'limit': permit_count,
+    }
+
+    try:
+        permits = client.get(dataset_id, **query)
+    except requests.exceptions.ConnectionError:
+        event = 'Unable to establish connection to dataset server'
+        log.error(event, exc_info=True)
+        return None
+    except requests.exceptions.HTTPError:
+        event = 'Received an error HTTP response from dataset server'
+        log.error(event, exc_info=True)
+        return None
+    except requests.exceptions.Timeout:
+        event = 'Query to dataset timed out'
+        log.error(event, exc_info=True)
+        return None
+    except requests.exceptions.RequestException:
+        event = 'Received unexpected error when fetching dataset'
+        log.error(event, exc_info=True)
+        return None
+
+    return permits
 
 
 if __name__ == '__main__':
