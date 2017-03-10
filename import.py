@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+import itertools
 import logging
 import os
 import sys
@@ -95,7 +96,7 @@ def count_dataset(client, dataset_id):
     log.info('count query response', response=count_query)
 
     # count will be in count field of first object
-    count = count_query[0]['count']
+    count = int(count_query[0]['count'])
 
     return count
 
@@ -104,31 +105,48 @@ def fetch_permits(client, dataset_id, permit_count):
     """Fetches permit records from dataset"""
     log = structlog.get_logger()
 
-    query = {
-        'select': 'project_id,applieddate,latitude,longitude,original_zip',
-        'where': 'applieddate IS NOT NULL AND location IS NOT NULL',
-        'order': 'project_id DESC',
-        'limit': permit_count,
-    }
+    # Set up for paginating through dataset
+    permits = []
+    limit = 10_000
+    pages = permit_count // limit
+    # Handle remainder
+    if permit_count % limit != 0:
+        pages = pages + 1
 
-    try:
-        permits = client.get(dataset_id, **query)
-    except requests.exceptions.ConnectionError:
-        event = 'Unable to establish connection to dataset server'
-        log.error(event, exc_info=True)
-        return None
-    except requests.exceptions.HTTPError:
-        event = 'Received an error HTTP response from dataset server'
-        log.error(event, exc_info=True)
-        return None
-    except requests.exceptions.Timeout:
-        event = 'Query to dataset timed out'
-        log.error(event, exc_info=True)
-        return None
-    except requests.exceptions.RequestException:
-        event = 'Received unexpected error when fetching dataset'
-        log.error(event, exc_info=True)
-        return None
+    log.debug('Pages to fetch', pages=pages)
+
+    for page in range(pages):
+        query = {
+            'select': '*',
+            'where': 'applieddate IS NOT NULL',
+            'order': 'applieddate DESC',
+            'limit': limit,
+            'offset': page * limit
+        }
+
+        try:
+            data = client.get(dataset_id, **query)
+        except requests.exceptions.ConnectionError:
+            event = 'Unable to establish connection to dataset server'
+            log.error(event, exc_info=True)
+            return None
+        except requests.exceptions.HTTPError:
+            event = 'Received an error HTTP response from dataset server'
+            log.error(event, exc_info=True)
+            return None
+        except requests.exceptions.Timeout:
+            event = 'Query to dataset timed out'
+            log.error(event, exc_info=True)
+            return None
+        except requests.exceptions.RequestException:
+            event = 'Received unexpected error when fetching dataset'
+            log.error(event, exc_info=True)
+            return None
+
+        permits.append(data)
+
+    # Flatten to single iterator
+    permits = itertools.chain.from_iterable(permits)
 
     return permits
 
