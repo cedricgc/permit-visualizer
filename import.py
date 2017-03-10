@@ -43,13 +43,20 @@ def main():
 
     client = sodapy.Socrata(domain, app_token)
 
+    log.debug('Fetching count of dataset records')
+
+    count = count_dataset(client, dataset_id)
+    if count == None:
+        log.error('Unable to query count of dataset')
+        return 1
+
     log.debug('Fetching permits')
 
     query = {
         'select': 'project_id,applieddate,latitude,longitude,original_zip',
         'where': 'applieddate IS NOT NULL AND location IS NOT NULL',
         'order': 'project_id DESC',
-        'limit': 1000000000,
+        'limit': count,
     }
 
     try:
@@ -77,6 +84,41 @@ def main():
     log.info('Total number of permits', count=len(permits))
 
     return 0
+
+
+def count_dataset(client, dataset_id):
+    """Fetches the current number of permits in the dataset"""
+    log = structlog.get_logger()
+
+    query = {
+        'select': 'count(*)'
+    }
+
+    try:
+        count_query = client.get(dataset_id, **query)
+    except requests.exceptions.ConnectionError:
+        event = 'Unable to establish connection to dataset server'
+        log.error(event, exc_info=True)
+        return None
+    except requests.exceptions.HTTPError:
+        event = 'Received an error HTTP response from dataset server'
+        log.error(event, exc_info=True)
+        return None
+    except requests.exceptions.Timeout:
+        event = 'Query to dataset timed out'
+        log.error(event, exc_info=True)
+        return None
+    except requests.exceptions.RequestException as e:
+        event = 'Received unexpected error when fetching dataset'
+        log.error(event, exc_info=True)
+        return None
+
+    log.info('count query response', response=count_query)
+
+    # count will be in count field of first object
+    count = count_query[0]['count']
+
+    return count
 
 
 if __name__ == '__main__':
