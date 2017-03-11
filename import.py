@@ -55,13 +55,13 @@ def main():
 
     log.debug('Fetching permits')
 
-    permits = fetch_permits(client, dataset_id, count)
-    if permits == None:
-        log.error('Unable to fetch permit records')
-        return 1
+    for permit_set in fetch_permits(client, dataset_id, count):
+        if permit_set == None:
+            log.error('Unable to fetch permit records')
+            return 1
 
-    for permit in permits:
-        log.info('Permit entry', **permit)
+        for permit in permit_set:
+            log.info('Permit entry', **permit)
 
     return 0
 
@@ -101,13 +101,11 @@ def count_dataset(client, dataset_id):
     return count
 
 
-def fetch_permits(client, dataset_id, permit_count):
+def fetch_permits(client, dataset_id, permit_count, limit=50_000):
     """Fetches permit records from dataset"""
     log = structlog.get_logger()
 
     # Set up for paginating through dataset
-    permits = []
-    limit = 10_000
     pages = permit_count // limit
     # Handle remainder
     if permit_count % limit != 0:
@@ -143,12 +141,7 @@ def fetch_permits(client, dataset_id, permit_count):
             log.error(event, exc_info=True)
             return None
 
-        permits.append(data)
-
-    # Flatten to single iterator
-    permits = itertools.chain.from_iterable(permits)
-
-    return permits
+        yield data
 
 
 if __name__ == '__main__':
