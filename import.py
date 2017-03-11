@@ -39,10 +39,10 @@ def setup_logging():
 def main():
     log = structlog.get_logger()
 
-    domain = os.environ.get('DOMAIN')
-    app_token = os.environ.get('APP_TOKEN')
-    dataset_id = os.environ.get('DATASET_ID')
-    database_url = os.environ.get('DATABASE_URL')
+    domain = os.environ['DOMAIN']
+    app_token = os.environ['APP_TOKEN']
+    dataset_id = os.environ['DATASET_ID']
+    database_url = os.environ['DATABASE_URL']
 
     mongo_client = pymongo.MongoClient(database_url)
     client = sodapy.Socrata(domain, app_token)
