@@ -1,4 +1,5 @@
 # See http://www.kennethreitz.org/essays/a-better-pip-workflow for motivation
 
+pymongo
 sodapy
 structlog
