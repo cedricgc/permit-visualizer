@@ -6,6 +6,7 @@ import logging
 import os
 import sys
 
+import pymongo
 import requests
 import sodapy
 import structlog
@@ -41,7 +42,9 @@ def main():
     domain = os.environ.get('DOMAIN')
     app_token = os.environ.get('APP_TOKEN')
     dataset_id = os.environ.get('DATASET_ID')
+    database_url = os.environ.get('DATABASE_URL')
 
+    mongo_client = pymongo.MongoClient(database_url)
     client = sodapy.Socrata(domain, app_token)
 
     log.debug('Fetching count of dataset records')
@@ -53,6 +56,9 @@ def main():
 
     log.info('Record count', count=count)
 
+    db = mongo_client.permits
+    index = db.index
+
     log.debug('Fetching permits')
 
     for permit_set in fetch_permits(client, dataset_id, count):
@@ -61,7 +67,11 @@ def main():
             return 1
 
         for permit in permit_set:
-            log.info('Permit entry', **permit)
+            log.debug('Permit entry', **permit)
+
+            permit_id = index.insert_one(permit).inserted_id
+
+            log.debug('ID in database', permit_id=permit_id)
 
     return 0
 
