@@ -62,10 +62,6 @@ def main():
     log.debug('Fetching permits')
 
     for permit_set in fetch_permits(client, dataset_id, count):
-        if permit_set == None:
-            log.error('Unable to fetch permit records')
-            return 1
-
         for permit in permit_set:
             log.debug('Permit entry', **permit)
 
@@ -132,24 +128,29 @@ def fetch_permits(client, dataset_id, permit_count, limit=50_000):
             'offset': page * limit
         }
 
-        try:
-            data = client.get(dataset_id, **query)
-        except requests.exceptions.ConnectionError:
-            event = 'Unable to establish connection to dataset server'
-            log.error(event, exc_info=True)
-            return None
-        except requests.exceptions.HTTPError:
-            event = 'Received an error HTTP response from dataset server'
-            log.error(event, exc_info=True)
-            return None
-        except requests.exceptions.Timeout:
-            event = 'Query to dataset timed out'
-            log.error(event, exc_info=True)
-            return None
-        except requests.exceptions.RequestException:
-            event = 'Received unexpected error when fetching dataset'
-            log.error(event, exc_info=True)
-            return None
+        log.info('Fetching page, will retry until success', page=page)
+
+        # Pattern ensures same page is fetched until it succeeds
+        while True:
+            try:
+                data = client.get(dataset_id, **query)
+            except requests.exceptions.ConnectionError:
+                event = 'Unable to establish connection to dataset server'
+                log.error(event, exc_info=True)
+                continue
+            except requests.exceptions.HTTPError:
+                event = 'Received an error HTTP response from dataset server'
+                log.error(event, exc_info=True)
+                continue
+            except requests.exceptions.Timeout:
+                event = 'Query to dataset timed out'
+                log.error(event, exc_info=True)
+                continue
+            except requests.exceptions.RequestException:
+                event = 'Received unexpected error when fetching dataset'
+                log.error(event, exc_info=True)
+                continue
+            break
 
         yield data
 
