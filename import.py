@@ -62,12 +62,10 @@ def main():
     log.debug('Fetching permits')
 
     for permit_set in fetch_permits(client, dataset_id, count):
-        for permit in permit_set:
-            log.debug('Permit entry', **permit)
+        result = index.insert_many(permit_set)
+        count = len(result.inserted_ids)
 
-            permit_id = index.insert_one(permit).inserted_id
-
-            log.debug('ID in database', permit_id=permit_id)
+        log.debug('bulk inserted permit data', count=count)
 
     return 0
 
