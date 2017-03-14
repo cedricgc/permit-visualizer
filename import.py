@@ -57,7 +57,7 @@ def main():
     log.info('Record count', count=count)
 
     db = mongo_client.permits
-    index = db.index
+    index = db.all_permits
 
     log.debug('Fetching permits')
 
