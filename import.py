@@ -67,6 +67,10 @@ def main():
 
         log.debug('bulk inserted permit data', count=count)
 
+    log.info('Finished fetching permits')
+
+    log.debug('Total records in index table', count=index.count())
+
     return 0
 
 
