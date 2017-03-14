@@ -61,10 +61,16 @@ def main():
     log.debug('Fetching permits')
 
     for permit_set in fetch_permits(client, dataset_id, count):
-        result = index.insert_many(permit_set)
-        count = len(result.inserted_ids)
+        try:
+            result = index.insert_many(permit_set, ordered=False)
+            insert_count = len(result.inserted_ids)
+        except pymongo.errors.BulkWriteError as e:
+            event = ('Error while bulk inserting data, '
+                     'remaining documents will still be inserted')
+            log.error(event, exc_info=True)
+            continue
 
-        log.debug('bulk inserted permit data', count=count)
+        log.debug('bulk inserted permit data', count=insert_count)
 
     log.info('Finished fetching permits')
 
