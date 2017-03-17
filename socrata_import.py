@@ -114,7 +114,7 @@ def count_dataset(client, dataset_id):
     return count
 
 
-def fetch_permits(client, dataset_id, permit_count, limit=50_000):
+def fetch_permits(client, dataset_id, permit_count, limit=25_000):
     """Fetches permit records from dataset"""
     log = structlog.get_logger()
 
