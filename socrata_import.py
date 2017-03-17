@@ -68,9 +68,9 @@ def main():
             event = ('Error while bulk inserting data, '
                      'remaining documents will still be inserted')
             log.error(event, exc_info=True)
-            continue
-
-        log.debug('bulk inserted permit data', count=insert_count)
+            insert_count = e.details.get('nInserted')
+        finally:
+            log.debug('bulk inserted permit data', count=insert_count)
 
     log.info('Finished fetching permits')
 
