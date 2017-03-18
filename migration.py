@@ -45,14 +45,40 @@ def main():
     log.info('Creating indexes')
 
     db = mongo_client['permits']
-    
+
     index = db['all_permits']
     index.create_index([('project_id', pymongo.ASCENDING)], unique=True)
 
     log.info('Indexes on all_permits collection',
              indexes=index.index_information())
 
+    log.info('Creating views based on all_permits')
+
+    try:
+        pipeline = geographic_pipeline()
+        geographic = db.create_collection('geographic',
+                                          viewOn='permits.all_permits',
+                                          pipeline=pipeline)
+    except pymongo.errors.CollectionInvalid:
+        log.warning('Collection already exists')
+
+    log.info('Created collections and views', all=db.collection_names())
+
     return 0
+
+
+def geographic_pipeline():
+    pipeline = [
+        {
+            '$project': {
+                'location': True,
+                'latitude': True,
+                'longitude': True,
+            }
+        },
+    ]
+
+    return pipeline
 
 
 if __name__ == '__main__':
