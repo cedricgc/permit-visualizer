@@ -57,7 +57,7 @@ def main():
     try:
         pipeline = geographic_pipeline()
         geographic = db.create_collection('geographic',
-                                          viewOn='permits.all_permits',
+                                          viewOn='all_permits',
                                           pipeline=pipeline)
     except pymongo.errors.CollectionInvalid:
         log.warning('Collection already exists')
