@@ -44,9 +44,9 @@ def main():
 
     log.info('Creating indexes')
 
-    db = mongo_client.permits
-    index = db.all_permits
-
+    db = mongo_client['permits']
+    
+    index = db['all_permits']
     index.create_index([('project_id', pymongo.ASCENDING)], unique=True)
 
     log.info('Indexes on all_permits collection',
