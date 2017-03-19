@@ -45,13 +45,11 @@ def main():
     log.info('Creating indexes')
 
     db = mongo_client['permits']
-
     index = db['all_permits']
     index.create_index([('project_id', pymongo.ASCENDING)], unique=True)
 
     log.info('Indexes on all_permits collection',
              indexes=index.index_information())
-
     log.info('Creating views based on all_permits')
 
     try:
