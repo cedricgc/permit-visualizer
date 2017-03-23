@@ -61,6 +61,12 @@ def main():
     log.debug('Fetching permits')
 
     for permit_set in fetch_permits(client, dataset_id, count):
+        if permit_set == None:
+            event = ('Excessive failures while fetching Socrata data, '
+                     'exiting early')
+            log.error(event)
+            return 1
+
         try:
             result = index.insert_many(permit_set, ordered=False)
             insert_count = len(result.inserted_ids)
@@ -137,10 +143,15 @@ def fetch_permits(client, dataset_id, permit_count, limit=25_000):
 
         log.info('Fetching page, will retry until success', page=page)
 
-        # Pattern ensures same page is fetched until it succeeds
-        while True:
+        # Retry multiple times or return null
+        success = False
+        data = None
+        for attempt in range(10):
+            log.info('attempt to fetch page', attempt=attempt+1)
+
             try:
                 data = client.get(dataset_id, **query)
+                success = True
             except requests.exceptions.ConnectionError:
                 event = 'Unable to establish connection to dataset server'
                 log.error(event, exc_info=True)
@@ -157,7 +168,10 @@ def fetch_permits(client, dataset_id, permit_count, limit=25_000):
                 event = 'Received unexpected error when fetching dataset'
                 log.error(event, exc_info=True)
                 continue
-            break
+
+            # Break out early if data is fetched
+            if success:
+                break
 
         yield data
 
