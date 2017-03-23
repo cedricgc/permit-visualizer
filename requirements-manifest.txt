@@ -1,5 +1,8 @@
 # See http://www.kennethreitz.org/essays/a-better-pip-workflow for motivation
 
+flask
+gunicorn
+json-logging-py
 pymongo
 sodapy
 structlog

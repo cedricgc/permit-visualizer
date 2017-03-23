@@ -1,6 +1,14 @@
+click==6.7
+Flask==0.12
 future==0.16.0
+gunicorn==19.7.1
+itsdangerous==0.24
+Jinja2==2.9.5
+json-logging-py==0.2
+MarkupSafe==1.0
 pymongo==3.4.0
 requests==2.12.1
 six==1.10.0
 sodapy==1.4.3
 structlog==16.1.0
+Werkzeug==0.12.1
