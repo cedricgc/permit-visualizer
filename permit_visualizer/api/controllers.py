@@ -11,8 +11,10 @@ flask converts return values to Response objects.
 """
 
 
+import uuid
+
 import flask
-import json
+import structlog
 
 
 api_bp = flask.Blueprint('api', __name__, url_prefix='/api/v1')
@@ -24,4 +26,8 @@ Initilize API as flask.Blueprint to keep it a modular part of the application
 
 @api_bp.route('/hello/', methods=['GET'])
 def hello():
+    log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
+
+    log.info('Request at hello route', hello='world')
+
     return flask.jsonify({'hello': 'world'}), 200
