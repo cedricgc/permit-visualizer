@@ -1,6 +1,7 @@
 # See http://www.kennethreitz.org/essays/a-better-pip-workflow for motivation
 
 flask
+flask-pymongo
 gunicorn
 json-logging-py
 pymongo
