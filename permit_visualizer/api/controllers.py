@@ -33,17 +33,8 @@ providing helper functions
 """
 
 
-@api_bp.route('/hello/', methods=['GET'])
-def hello():
-    log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
-
-    log.info('Request at hello route', hello='world')
-
-    return flask.jsonify({'hello': 'world'}), 200
-
-
-@api_bp.route('/random-permit/', methods=['GET'])
-def random_permit():
+@api_bp.route('/permits/', methods=['GET'])
+def index_permits():
     log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
 
     log.info('Request at random-permit route')
