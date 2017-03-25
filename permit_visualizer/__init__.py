@@ -14,6 +14,9 @@ def create_app():
     See http://flask.pocoo.org/docs/latest/patterns/appfactories/ for motivation
     """
     app = flask.Flask(__name__)
+    app.config.from_object('config.Config')
+    app.static_folder = app.config['STATIC_FILES']
+    app.template_folder = app.config['TEMPLATES']
 
     app.url_map.strict_slashes = False
     """Disables Werkzeug's strict route interpretation
