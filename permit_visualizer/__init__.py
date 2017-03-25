@@ -28,6 +28,11 @@ def create_app():
     See: http://flask.pocoo.org/docs/latest/quickstart/#variable-rules
     """
 
+    # Initilize flask extensions
+    from permit_visualizer.api.controllers import mongo
+
+    mongo.init_app(app, config_prefix='DATABASE')
+
     # We import controllers after top level object or interpreter would crash
     # due to circular dependencies
     # Ensure route controllers are executed by interpreter
