@@ -13,6 +13,7 @@ flask converts return values to Response objects.
 
 import uuid
 
+import bson
 import flask
 import flask_pymongo
 import structlog
@@ -37,10 +38,40 @@ providing helper functions
 def index_permits():
     log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
 
-    log.info('Request at random-permit route')
+    # How many items to return, a value over the maximum is set
+    # to the maximum value
+    limit = flask.request.args.get('limit', 25, type=int)
+    if limit > 50:
+        limit = 50
+    # Cursor to query items afterwards
+    after = flask.request.args.get('after', None, type=str)
 
-    permit = mongo.db['all_permits'].find_one(projection={'_id': False})
+    log.debug('query parameters', limit=limit, after=after)
 
-    log.info('permit fetched', permit=permit)
+    query = {
+        '_id': {
+            '$gt': bson.objectid.ObjectId(after),
+        },
+    }
+    if after:
+        cursor = mongo.db['all_permits'].find(query).limit(limit)
+    else:
+        cursor = mongo.db['all_permits'].find().limit(limit)
 
-    return flask.jsonify(permit), 200
+    permits = [permit for permit in cursor]
+    count = len(permits)
+    if count > 0:
+        query_cursor = str(permits[-1]['_id'])
+    else:
+        query_cursor = None
+
+    for permit in permits:
+        del permit['_id']
+
+    response = {
+        'count': len(permits),
+        'cursor': query_cursor,
+        'data': permits,
+    }
+
+    return flask.jsonify(response), 200
