@@ -13,24 +13,16 @@ flask converts return values to Response objects.
 
 import uuid
 
-import bson
 import flask
-import flask_pymongo
 import structlog
+
+import permit_visualizer.api.models as models
 
 
 api_bp = flask.Blueprint('api', __name__, url_prefix='/api/v1')
 """Flask.Blueprint: Web API
 
 Initilize API as flask.Blueprint to keep it a modular part of the application
-"""
-
-mongo = flask_pymongo.PyMongo()
-"""Flask-PyMongo: Database connection
-
-PyMongo has builtin connection pooling and reconnect on failure.
-Flask-PyMongo integrates database config with Flask config while also
-providing helper functions
 """
 
 
@@ -48,29 +40,11 @@ def index_permits():
 
     log.debug('query parameters', limit=limit, after=after)
 
-    query = {
-        '_id': {
-            '$gt': bson.objectid.ObjectId(after),
-        },
-    }
-    if after:
-        cursor = mongo.db['all_permits'].find(query).limit(limit)
-    else:
-        cursor = mongo.db['all_permits'].find().limit(limit)
-
-    permits = [permit for permit in cursor]
-    count = len(permits)
-    if count > 0:
-        query_cursor = str(permits[-1]['_id'])
-    else:
-        query_cursor = None
-
-    for permit in permits:
-        del permit['_id']
+    permits, cursor = models.all_permits(limit, after)
 
     response = {
         'count': len(permits),
-        'cursor': query_cursor,
+        'cursor': cursor,
         'data': permits,
     }
 
