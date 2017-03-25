@@ -14,6 +14,7 @@ flask converts return values to Response objects.
 import uuid
 
 import flask
+import flask_pymongo
 import structlog
 
 
@@ -21,6 +22,14 @@ api_bp = flask.Blueprint('api', __name__, url_prefix='/api/v1')
 """Flask.Blueprint: Web API
 
 Initilize API as flask.Blueprint to keep it a modular part of the application
+"""
+
+mongo = flask_pymongo.PyMongo()
+"""Flask-PyMongo: Database connection
+
+PyMongo has builtin connection pooling and reconnect on failure.
+Flask-PyMongo integrates database config with Flask config while also
+providing helper functions
 """
 
 
@@ -31,3 +40,16 @@ def hello():
     log.info('Request at hello route', hello='world')
 
     return flask.jsonify({'hello': 'world'}), 200
+
+
+@api_bp.route('/random-permit/', methods=['GET'])
+def random_permit():
+    log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
+
+    log.info('Request at random-permit route')
+
+    permit = mongo.db['all_permits'].find_one(projection={'_id': False})
+
+    log.info('permit fetched', permit=permit)
+
+    return flask.jsonify(permit), 200
