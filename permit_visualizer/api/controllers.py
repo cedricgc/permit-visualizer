@@ -40,7 +40,17 @@ def index_permits():
 
     log.debug('query parameters', limit=limit, after=after)
 
-    permits, cursor = models.all_permits(limit, after)
+    try:
+        permits, cursor = models.all_permits(limit, after)
+    except ValueError:
+        log.error('Parameter was not a valid pagination cursor', exc_info=True)
+        bad_request = {
+            'errors': {
+                'after': ['Query parameter was not a valid pagination cursor']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
 
     response = {
         'count': len(permits),

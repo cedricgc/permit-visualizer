@@ -15,7 +15,10 @@ providing helper functions
 
 
 def all_permits(limit, after=None):
-    if after and bson.objectid.ObjectId.is_valid(after):
+    if not bson.objectid.ObjectId.is_valid(after) and after is not None:
+        raise ValueError(f'{after} is not a valid MongoDB ObjectID')
+
+    if after is not None:
         query = {
             '_id': {
                 '$gt': bson.objectid.ObjectId(after),
