@@ -41,7 +41,7 @@ def main():
     domain = os.environ['DOMAIN']
     app_token = os.environ['APP_TOKEN']
     dataset_id = os.environ['DATASET_ID']
-    database_url = os.environ['DATABASE_URL']
+    database_url = os.environ['DATABASE_URI']
 
     mongo_client = pymongo.MongoClient(database_url)
     client = sodapy.Socrata(domain, app_token)

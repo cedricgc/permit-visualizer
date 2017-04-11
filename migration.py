@@ -36,7 +36,7 @@ def setup_logging():
 def main():
     log = structlog.get_logger()
 
-    database_url = os.environ['DATABASE_URL']
+    database_url = os.environ['DATABASE_URI']
 
     log.info('Connecting to database')
 
