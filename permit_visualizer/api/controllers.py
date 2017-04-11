@@ -11,6 +11,7 @@ flask converts return values to Response objects.
 """
 
 
+import datetime
 import uuid
 
 import flask
@@ -59,3 +60,42 @@ def index_permits():
     }
 
     return flask.jsonify(response), 200
+
+
+@api_bp.route('/heatmap/', methods=['GET'])
+def heatmap():
+    log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
+
+    # How many items to return, a value over the maximum is set
+    # to the maximum value
+    limit = flask.request.args.get('limit', 25, type=int)
+    if limit > 50:
+        limit = 50
+    # Cursor to query items afterwards
+    after = flask.request.args.get('after', None, type=str)
+
+    # Date parameters that bound the query
+    start = flask.request.args.get('start', None, type=str)
+    end = flask.request.args.get('end', None, type=str)
+
+    try:
+        start = datetime.datetime.strptime(start, '%Y-%m-%d')
+        end = datetime.datetime.strptime(end, '%Y-%m-%d')
+    except ValueError:
+        log.error('Parameter was not a valid date', exc_info=True)
+        bad_request = {
+            'errors': {
+                'start': ['Query parameter was not a valid date'],
+                'end': ['Query parameter was not a valid date']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
+
+    log.debug('query parameters',
+              limit=limit,
+              after=after,
+              start=start,
+              end=end)
+
+    return 'Hello', 200
