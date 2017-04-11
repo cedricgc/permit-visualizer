@@ -135,8 +135,8 @@ def fetch_permits(client, dataset_id, permit_count, limit=25_000):
     for page in range(pages):
         query = {
             'select': '*',
-            'where': 'applieddate IS NOT NULL',
-            'order': 'applieddate DESC',
+            'where': 'issue_date IS NOT NULL',
+            'order': 'issue_date DESC',
             'limit': limit,
             'offset': page * limit
         }
