@@ -11,11 +11,13 @@ flask converts return values to Response objects.
 """
 
 
+import datetime
 import uuid
 
 import flask
-import flask_pymongo
 import structlog
+
+import permit_visualizer.api.models as models
 
 
 api_bp = flask.Blueprint('api', __name__, url_prefix='/api/v1')
@@ -24,32 +26,94 @@ api_bp = flask.Blueprint('api', __name__, url_prefix='/api/v1')
 Initilize API as flask.Blueprint to keep it a modular part of the application
 """
 
-mongo = flask_pymongo.PyMongo()
-"""Flask-PyMongo: Database connection
 
-PyMongo has builtin connection pooling and reconnect on failure.
-Flask-PyMongo integrates database config with Flask config while also
-providing helper functions
-"""
-
-
-@api_bp.route('/hello/', methods=['GET'])
-def hello():
+@api_bp.route('/permits/', methods=['GET'])
+def index_permits():
     log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
 
-    log.info('Request at hello route', hello='world')
+    # How many items to return, a value over the maximum is set
+    # to the maximum value
+    limit = flask.request.args.get('limit', 25, type=int)
+    if limit > 50:
+        limit = 50
+    # Cursor to query items afterwards
+    after = flask.request.args.get('after', None, type=str)
 
-    return flask.jsonify({'hello': 'world'}), 200
+    log.debug('query parameters', limit=limit, after=after)
+
+    try:
+        permits, cursor = models.all_permits(limit, after)
+    except ValueError:
+        log.error('Parameter was not a valid pagination cursor', exc_info=True)
+        bad_request = {
+            'errors': {
+                'after': ['Query parameter was not a valid pagination cursor']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
+
+    response = {
+        'count': len(permits),
+        'cursor': cursor,
+        'data': permits,
+    }
+
+    return flask.jsonify(response), 200
 
 
-@api_bp.route('/random-permit/', methods=['GET'])
-def random_permit():
+@api_bp.route('/heatmap/', methods=['GET'])
+def heatmap():
     log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
 
-    log.info('Request at random-permit route')
+    # How many items to return, a value over the maximum is set
+    # to the maximum value
+    limit = flask.request.args.get('limit', 25, type=int)
+    if limit > 50:
+        limit = 50
+    # Cursor to query items afterwards
+    after = flask.request.args.get('after', None, type=str)
 
-    permit = mongo.db['all_permits'].find_one(projection={'_id': False})
+    # Date parameters that bound the query
+    start = flask.request.args.get('start', None, type=str)
+    end = flask.request.args.get('end', None, type=str)
 
-    log.info('permit fetched', permit=permit)
+    log.debug('query parameters',
+              limit=limit,
+              after=after,
+              start=start,
+              end=end)
 
-    return flask.jsonify(permit), 200
+    try:
+        start = datetime.datetime.strptime(start, '%Y-%m-%d')
+        end = datetime.datetime.strptime(end, '%Y-%m-%d')
+    except ValueError:
+        log.error('Parameter was not a valid date', exc_info=True)
+        bad_request = {
+            'errors': {
+                'start': ['Query parameter was not a valid date'],
+                'end': ['Query parameter was not a valid date']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
+
+    try:
+        permits, cursor = models.heatmap_permits(start, end, limit, after)
+    except ValueError:
+        log.error('Parameter was not a valid pagination cursor', exc_info=True)
+        bad_request = {
+            'errors': {
+                'after': ['Query parameter was not a valid pagination cursor']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
+
+    response = {
+        'count': len(permits),
+        'cursor': cursor,
+        'data': permits,
+    }
+
+    return flask.jsonify(response), 200

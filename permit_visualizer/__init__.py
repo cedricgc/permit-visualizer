@@ -29,7 +29,7 @@ def create_app():
     """
 
     # Initilize flask extensions
-    from permit_visualizer.api.controllers import mongo
+    from permit_visualizer.api.models import mongo
 
     mongo.init_app(app, config_prefix='DATABASE')
 

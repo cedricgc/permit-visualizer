@@ -36,7 +36,7 @@ def setup_logging():
 def main():
     log = structlog.get_logger()
 
-    database_url = os.environ['DATABASE_URL']
+    database_url = os.environ['DATABASE_URI']
 
     log.info('Connecting to database')
 
@@ -53,10 +53,10 @@ def main():
     log.info('Creating views based on all_permits')
 
     try:
-        pipeline = geographic_pipeline()
-        geographic = db.create_collection('geographic',
-                                          viewOn='all_permits',
-                                          pipeline=pipeline)
+        pipeline = heatmap_pipeline()
+        heatmap = db.create_collection('heatmap',
+                                       viewOn='all_permits',
+                                       pipeline=pipeline)
     except pymongo.errors.CollectionInvalid:
         log.warning('Collection already exists')
 
@@ -65,14 +65,16 @@ def main():
     return 0
 
 
-def geographic_pipeline():
+def heatmap_pipeline():
     pipeline = [
         {
             '$project': {
+                'issue_date': True,
                 'location': True,
                 'latitude': True,
                 'longitude': True,
-            }
+                'permit_type_desc': True,
+            },
         },
     ]
 
