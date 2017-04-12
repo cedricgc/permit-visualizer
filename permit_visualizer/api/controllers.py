@@ -78,6 +78,12 @@ def heatmap():
     start = flask.request.args.get('start', None, type=str)
     end = flask.request.args.get('end', None, type=str)
 
+    log.debug('query parameters',
+              limit=limit,
+              after=after,
+              start=start,
+              end=end)
+
     try:
         start = datetime.datetime.strptime(start, '%Y-%m-%d')
         end = datetime.datetime.strptime(end, '%Y-%m-%d')
@@ -92,10 +98,22 @@ def heatmap():
 
         return flask.jsonify(bad_request), 422
 
-    log.debug('query parameters',
-              limit=limit,
-              after=after,
-              start=start,
-              end=end)
+    try:
+        permits, cursor = models.heatmap_permits(start, end, limit, after)
+    except ValueError:
+        log.error('Parameter was not a valid pagination cursor', exc_info=True)
+        bad_request = {
+            'errors': {
+                'after': ['Query parameter was not a valid pagination cursor']
+            }
+        }
 
-    return 'Hello', 200
+        return flask.jsonify(bad_request), 422
+
+    response = {
+        'count': len(permits),
+        'cursor': cursor,
+        'data': permits,
+    }
+
+    return flask.jsonify(response), 200
