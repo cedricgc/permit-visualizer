@@ -37,8 +37,10 @@ def create_app():
     # due to circular dependencies
     # Ensure route controllers are executed by interpreter
     from permit_visualizer.api.controllers import api_bp
+    from permit_visualizer.frontend.controllers import frontend_bp
 
     app.register_blueprint(api_bp)
+    app.register_blueprint(frontend_bp)
 
     return app
 
