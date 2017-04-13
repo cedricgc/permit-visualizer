@@ -29,4 +29,4 @@ Client facing pages scoped to main routes
 
 @frontend_bp.route('/', methods=['GET'])
 def index():
-    return "Hello!", 200
+    return flask.render_template('index.html')

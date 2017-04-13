@@ -1,0 +1,271 @@
+
+
+#building-button {
+    background-color:#404040;
+    border-radius:5px;
+    margin-top: 5px;
+    padding: 0px 0px 0px 0px;
+    line-height: 40px;
+    width: 100px;
+    float:left;
+}
+
+#building-button label {
+    float:left;
+    width:100%;
+    margin: 0px 0px 0px 0px;
+}
+
+#building-button label span {
+    text-align:center;
+    padding:0px 0px;
+    display:inline-block;
+    overflow: auto;
+    width: 100%;
+    float:left;
+    border-radius: 5px;
+    line-height: 40px;
+}
+
+#building-button label input {
+    position:absolute;
+    top:-50px;
+}
+
+#building-button:hover {
+	background: #FFCC99;
+
+}
+
+#building-button input:checked + span {
+    background-color: #FF9933;
+}
+
+
+
+#plumbing-button {
+    background-color:#404040;
+    border-radius:5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    line-height: 40px;
+    width: 100px;
+    float:left;
+    margin-top: 5px;
+}
+
+#plumbing-button label {
+    float:left;
+    width:100%;
+    margin: 0px 0px 0px 0px;
+}
+
+#plumbing-button label span {
+    text-align:center;
+    padding:0px 0px;
+    display:inline-block;
+    overflow: auto;
+    width: 100%;
+    float:left;
+    border-radius: 5px;
+    line-height: 40px;
+}
+
+#plumbing-button label input {
+    position:absolute;
+    top:-50px;
+}
+
+#plumbing-button:hover {
+	background: #9999FF;
+
+}
+
+#plumbing-button input:checked + span {
+    background-color: #3333FF;
+}
+
+
+
+#electrical-button {
+    background-color:#404040;
+    border-radius:5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    line-height: 40px;
+    width: 100px;
+    float:left;
+    margin-top: 5px;
+}
+
+#electrical-button label {
+    float:left;
+    width:100%;
+    margin: 0px 0px 0px 0px;
+}
+
+#electrical-button label span {
+    text-align:center;
+    padding:0px 0px;
+    display:inline-block;
+    overflow: auto;
+    width: 100%;
+    float:left;
+    border-radius: 5px;
+    line-height: 40px;
+}
+
+#electrical-button label input {
+    position:absolute;
+    top:-50px;
+}
+
+#electrical-button:hover {
+	background: #FF99CC;
+
+}
+
+#electrical-button input:checked + span {
+    background-color: #FF3399;
+}
+
+
+
+#driveway-button {
+    background-color:#404040;
+    border-radius:5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    line-height: 40px;
+    width: 145px;
+    float:left;
+    margin-top: 5px;
+}
+
+#driveway-button label {
+    float:left;
+    width:100%;
+    margin: 0px 0px 0px 0px;
+}
+
+#driveway-button label span {
+    text-align:center;
+    padding:0px 0px;
+    display:inline-block;
+    overflow: auto;
+    width: 100%;
+    float:left;
+    border-radius: 5px;
+    line-height: 40px;
+}
+
+#driveway-button label input {
+    position:absolute;
+    top:-50px;
+}
+
+#driveway-button:hover {
+	background: #FFFF99;
+
+}
+
+#driveway-button input:checked + span {
+    background-color: #FFFF33;
+}
+
+
+
+#mechanical-button {
+    background-color:#404040;
+    border-radius:5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    line-height: 40px;
+    width: 100px;
+    float:left;
+    margin-top: 5px;
+}
+
+#mechanical-button label {
+    float:left;
+    width:100%;
+    margin: 0px 0px 0px 0px;
+}
+
+#mechanical-button label span {
+    text-align:center;
+    padding:0px 0px;
+    display:inline-block;
+    overflow: auto;
+    width: 100%;
+    float:left;
+    border-radius: 5px;
+    line-height: 40px;
+}
+
+#mechanical-button label input {
+    position:absolute;
+    top:-50px;
+}
+
+#mechanical-button:hover {
+	background: #99FF99;
+
+}
+
+#mechanical-button input:checked + span {
+    background-color: #33FF33;
+}
+
+
+
+#demolition-button {
+    background-color:#404040;
+    border-radius:5px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    line-height: 40px;
+    width: 100px;
+    float:left;
+    margin-top: 5px;
+}
+
+#demolition-button label {
+    float:left;
+    width:100%;
+    margin: 0px 0px 0px 0px;
+}
+
+#demolition-button label span {
+    text-align:center;
+    padding:0px 0px;
+    display:inline-block;
+    overflow: auto;
+    width: 100%;
+    float:left;
+    border-radius: 5px;
+    line-height: 40px;
+}
+
+#demolition-button label input {
+    position:absolute;
+    top:-50px;
+}
+
+#demolition-button:hover {
+	background: #FF9999;
+
+}
+
+#demolition-button input:checked + span {
+    background-color: #CC0000;
+}
+
+.chkboxspan {
+    color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
