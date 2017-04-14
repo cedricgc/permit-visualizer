@@ -1,191 +1,156 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="permit-visualizer">
-​
+<html lang="en">
 <head>
-​
+    <title>Austin Permit Visualizer</title>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-​
-​
-​
-       <title>Austin Permit Visualizer</title>
-    <link rel="shortcut icon" href="" type="image/png" />
-
-​
-<!-- Bootstrap Core CSS -->
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<link href="//gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<link href="/static/css/navbar.css" rel="stylesheet">
-<link href="/static/css/map.css" rel="stylesheet">
-
-​
-<!-- Bootstrap Core JavaScript -->
-
-
-<div class="navbar navbar-fixed-top">
-  <nav class="navbar navbar-inverse" role="navigation">
-
-
-
-  <script src="//gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
-    <script src="/static/js/navbar.js"></script>
-
-
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/" style="font-size: 20px"><b>CoA Permit Visualizer</b></a>
-    </div>
-
-      <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
-        <div class="navbar-btn" id='building-button'>
-              <label class="navbar-link" for="building">
-                  <input type="checkbox" class="autosubmit" id="building" value="true">
-                  <span class="chkboxspan">Building</span>
-              </label>
-          </div>
-      </form>
-      <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
-        <div class="navbar-btn" id='plumbing-button'>
-              <label class="navbar-link" for="plumbing">
-                  <input type="checkbox" class="autosubmit" id="plumbing" value="true">
-                  <span class="chkboxspan">Plumbing</span>
-              </label>
-          </div>
-      </form>
-          <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
-        <div class="navbar-btn" id='electrical-button'>
-              <label class="navbar-link" for="electrical">
-                  <input type="checkbox" class="autosubmit" id="electrical" value="true">
-                  <span class="chkboxspan">Electrical</span>
-              </label>
-          </div>
-      </form>
-          <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
-        <div class="navbar-btn" id='mechanical-button'>
-              <label class="navbar-link" for="mechanical">
-                  <input type="checkbox" class="autosubmit" id="mechanical" value="true">
-                  <span class="chkboxspan">Mechanical</span>
-              </label>
-          </div>
-      </form>
-          <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
-        <div class="navbar-btn" id='driveway-button'>
-              <label class="navbar-link" for="driveway">
-                  <input type="checkbox" class="autosubmit" id="driveway" value="true">
-                  <span class="chkboxspan">Driveway/Sidewalk</span>
-              </label>
-          </div>
-      </form>
-          <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
-        <div class="navbar-btn" id='demolition-button'>
-              <label class="navbar-link" for="demolition">
-                  <input type="checkbox" class="autosubmit" id="demolition" value="true">
-                  <span class="chkboxspan">Demolition</span>
-              </label>
-          </div>
-      </form>
-
-       <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-right: 20px">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">About</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dates and Settings<b class="caret"></b></a>
-          <ul class="dropdown-menu" style="width: 400px;">
-            <li><a href="#">Start Date</a></li>
-            <li>
-              <div class="container">
-                <div class="row">
-                    <div class='col-sm-4'>
-                        <div class="form-group">
-
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker1').datepicker({
-                              format: "yyyy-mm-dd",
-                              autoclose: true
-                            });
-                        });
-                    </script>
-                </div>
-            </div>
-            </li>
-            <li class="divider"></li>
-            <li><a href="#">End Date</a></li>
-            <li>
-              <div class="container">
-                <div class="row">
-                    <div class='col-sm-4'>
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker2'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker2').datepicker({
-                              format: "yyyy-mm-dd",
-                              autoclose: true
-                            });
-                        });
-                    </script>
-                </div>
-            </div>
-            </li>
-            <li class="divider"></li>
-            <div class="checkbox">
-            <label>
-              <input type="checkbox" data-toggle="toggle">
-              Heatmap toggle
-            </label>
-          </div>
-
-          </ul>
-          <script type="text/javascript">
-            $('.dropdown-menu').on({
-              "click":function(e){
-              e.stopPropagation();
-            }
-            });
-          </script>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-
-  </nav>
-  </div>
-
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">​ ​ ​
+    <link href="" rel="shortcut icon" type="image/png">​ <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="static/css/navbar.css" rel="stylesheet">
+    <link href="static/css/map.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Comfortaa|Cuprum" rel="stylesheet">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">​ <!-- Bootstrap Core JavaScript -->
 </head>
-​
-  <body>
-      <script>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js">
+    </script> 
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js">
+    </script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    </script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js">
+    </script> 
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js">
+    </script>
+    <div class="navbar navbar-fixed-top" style="font-family: 'Comfortaa', cursive;">
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/" style="font-size: 30px"><b>CoA Permit Visualizer</b></a>
+            </div>
+            <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+                <div class="navbar-btn" id='building-button'>
+                    <label class="navbar-link" for="building"><input class="autosubmit" id="building" type="checkbox" value="true"> <span class="chkboxspan">Building</span></label>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+                <div class="navbar-btn" id='plumbing-button'>
+                    <label class="navbar-link" for="plumbing"><input class="autosubmit" id="plumbing" type="checkbox" value="true"> <span class="chkboxspan">Plumbing</span></label>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+                <div class="navbar-btn" id='electrical-button'>
+                    <label class="navbar-link" for="electrical"><input class="autosubmit" id="electrical" type="checkbox" value="true"> <span class="chkboxspan">Electrical</span></label>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+                <div class="navbar-btn" id='mechanical-button'>
+                    <label class="navbar-link" for="mechanical"><input class="autosubmit" id="mechanical" type="checkbox" value="true"> <span class="chkboxspan">Mechanical</span></label>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+                <div class="navbar-btn" id='driveway-button'>
+                    <label class="navbar-link" for="driveway"><input class="autosubmit" id="driveway" type="checkbox" value="true"> <span class="chkboxspan">Driveway/Sidewalk</span></label>
+                </div>
+            </form>
+            <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+                <div class="navbar-btn" id='demolition-button'>
+                    <label class="navbar-link" for="demolition"><input class="autosubmit" id="demolition" type="checkbox" value="true"> <span class="chkboxspan">Demolition</span></label>
+                </div>
+            </form><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-right: 20px">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dates and Settings<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="width: 400px;">
+                            <li>
+                                <a href="#">Start Date</a>
+                            </li>
+                            <li>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input class="form-control" type='text'> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                        $(function () {
+                                        $('#datetimepicker1').datepicker({
+                                        format: "yyyy-mm-dd",
+                                        autoclose: true
+                                        });
+                                        });
+                                        </script>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">End Date</a>
+                            </li>
+                            <li>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <div class='input-group date' id='datetimepicker2'>
+                                                    <input class="form-control" type='text'> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                        $(function () {
+                                        $('#datetimepicker2').datepicker({
+                                        format: "yyyy-mm-dd",
+                                        autoclose: true
+                                        });
+                                        });
+                                        </script>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li style="list-style: none; display: inline">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <div class='input-group date'>
+                                                    <div class="checkbox">
+                                                        <label for="heatmaptoggle"><input class="autosubmit" data-toggle="toggle" id='heatmaptoggle' type="checkbox" value="true"> <span>Heatmap toggle</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <script type="text/javascript">
+                        $('.dropdown-menu').on({
+                        "click":function(e){
+                        e.stopPropagation();
+                        }
+                        });
+                        </script>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </div>​ 
+    <script>
         function initMap() {
           map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
@@ -193,12 +158,9 @@
             mapTypeId: 'terrain'
           });
         }
-      </script>
-      <script async defer
-      src="https://maps.googleapis.com/maps/api/js?callback=initMap">
-      </script>
-​
-
-        <div id="map"></div>
-  </body>
+    </script> 
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+    </script> ​
+    <div id="map"></div>
+</body>
 </html>
