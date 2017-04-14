@@ -1,0 +1,3 @@
+function reloadMap(){
+  return false;
+}
