@@ -43,8 +43,6 @@ def all_permits(limit, after=None):
 
 
 def heatmap_permits(start, end, limit, after=None):
-    log = structlog.get_logger()
-
     if not bson.objectid.ObjectId.is_valid(after) and after is not None:
         raise ValueError(f'{after} is not a valid MongoDB ObjectID')
 

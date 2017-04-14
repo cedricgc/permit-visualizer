@@ -75,7 +75,7 @@ def heatmap():
     # Cursor to query items afterwards
     after = flask.request.args.get('after', None, type=str)
 
-    # Date parameters that bound the query
+    # Date parameters that bounds the query
     start = flask.request.args.get('start', None, type=str)
     end = flask.request.args.get('end', None, type=str)
 
