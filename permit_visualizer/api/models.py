@@ -56,6 +56,10 @@ def heatmap_permits(start, end, limit, permit_types=None, after=None):
         query['_id'] = {
             '$gt': bson.objectid.ObjectId(after),
         }
+    if permit_types is not None:
+        query['permit_type_desc'] = {
+            '$in': permit_types
+        }
 
     cursor = mongo.db['heatmap'].find(query).limit(limit)
 

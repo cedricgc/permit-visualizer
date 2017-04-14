@@ -104,7 +104,11 @@ def heatmap():
         return flask.jsonify(bad_request), 422
 
     try:
-        permits, cursor = models.heatmap_permits(start, end, limit, after)
+        permits, cursor = models.heatmap_permits(start,
+                                                 end,
+                                                 limit,
+                                                 permit_types,
+                                                 after)
     except ValueError:
         log.error('Parameter was not a valid pagination cursor', exc_info=True)
         bad_request = {
