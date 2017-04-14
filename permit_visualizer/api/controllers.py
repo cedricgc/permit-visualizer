@@ -80,7 +80,7 @@ def heatmap():
     end = flask.request.args.get('end', None, type=str)
 
     # Permit types to filter by
-    permit_types = flask.request.args.getlist('types', type=str)
+    permit_types = flask.request.args.getlist('type', type=str) or None
 
     log.debug('query parameters',
               limit=limit,
