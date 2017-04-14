@@ -47,6 +47,8 @@ def main():
     db = mongo_client['permits']
     index = db['all_permits']
     index.create_index([('project_id', pymongo.ASCENDING)], unique=True)
+    index.create_index([('issue_date', pymongo.ASCENDING)])
+    index.create_index([('permit_type_desc', pymongo.ASCENDING)])
 
     log.info('Indexes on all_permits collection',
              indexes=index.index_information())
