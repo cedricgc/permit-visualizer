@@ -68,9 +68,10 @@ def heatmap():
 
     # How many items to return, a value over the maximum is set
     # to the maximum value
-    limit = flask.request.args.get('limit', 25, type=int)
-    if limit > 50:
-        limit = 50
+    limit = flask.request.args.get('limit', 500, type=int)
+    if limit > 500:
+        limit = 500
+
     # Cursor to query items afterwards
     after = flask.request.args.get('after', None, type=str)
 
