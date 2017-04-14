@@ -79,11 +79,15 @@ def heatmap():
     start = flask.request.args.get('start', None, type=str)
     end = flask.request.args.get('end', None, type=str)
 
+    # Permit types to filter by
+    permit_types = flask.request.args.getlist('types', type=str)
+
     log.debug('query parameters',
               limit=limit,
               after=after,
               start=start,
-              end=end)
+              end=end,
+              permit_types=permit_types)
 
     try:
         start = datetime.datetime.strptime(start, '%Y-%m-%d')
