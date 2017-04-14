@@ -42,27 +42,19 @@ def all_permits(limit, after=None):
     return permits, pagination_cursor
 
 
-def heatmap_permits(start, end, limit, after=None):
+def heatmap_permits(start, end, limit, permit_types=None, after=None):
     if not bson.objectid.ObjectId.is_valid(after) and after is not None:
         raise ValueError(f'{after} is not a valid MongoDB ObjectID')
 
-    query = {}
+    query = {
+        'issue_date': {
+            '$gt': start,
+            '$lt': end,
+        },
+    }
     if after is not None:
-        query = {
-            '_id': {
-                '$gt': bson.objectid.ObjectId(after),
-            },
-            'issue_date': {
-                '$gt': start,
-                '$lt': end,
-            },
-        }
-    else:
-        query = {
-            'issue_date': {
-                '$gt': start,
-                '$lt': end,
-            },
+        query['_id'] = {
+            '$gt': bson.objectid.ObjectId(after),
         }
 
     cursor = mongo.db['heatmap'].find(query).limit(limit)
