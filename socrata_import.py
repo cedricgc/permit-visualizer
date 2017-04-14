@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+import datetime
 import logging
 import os
 import sys
@@ -66,6 +67,10 @@ def main():
                      'exiting early')
             log.error(event)
             return 1
+
+        log.debug('Cleaning permit set')
+
+        permit_set = [clean_permit(permit) for permit in permit_set]
 
         try:
             result = index.insert_many(permit_set, ordered=False)
@@ -174,6 +179,15 @@ def fetch_permits(client, dataset_id, permit_count, limit=25_000):
                 break
 
         yield data
+
+def clean_permit(permit):
+    """Converts Socrata data into MongoDB format"""
+    issue_date = datetime.datetime.strptime(permit['issue_date'],
+                                            '%Y-%m-%dT%H:%M:%S.%f')
+
+    permit['issue_date'] = issue_date
+
+    return permit
 
 
 if __name__ == '__main__':

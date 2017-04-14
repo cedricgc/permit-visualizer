@@ -68,21 +68,26 @@ def heatmap():
 
     # How many items to return, a value over the maximum is set
     # to the maximum value
-    limit = flask.request.args.get('limit', 25, type=int)
-    if limit > 50:
-        limit = 50
+    limit = flask.request.args.get('limit', 500, type=int)
+    if limit > 500:
+        limit = 500
+
     # Cursor to query items afterwards
     after = flask.request.args.get('after', None, type=str)
 
-    # Date parameters that bound the query
+    # Date parameters that bounds the query
     start = flask.request.args.get('start', None, type=str)
     end = flask.request.args.get('end', None, type=str)
+
+    # Permit types to filter by
+    permit_types = flask.request.args.getlist('type', type=str) or None
 
     log.debug('query parameters',
               limit=limit,
               after=after,
               start=start,
-              end=end)
+              end=end,
+              permit_types=permit_types)
 
     try:
         start = datetime.datetime.strptime(start, '%Y-%m-%d')
@@ -99,7 +104,11 @@ def heatmap():
         return flask.jsonify(bad_request), 422
 
     try:
-        permits, cursor = models.heatmap_permits(start, end, limit, after)
+        permits, cursor = models.heatmap_permits(start,
+                                                 end,
+                                                 limit,
+                                                 permit_types,
+                                                 after)
     except ValueError:
         log.error('Parameter was not a valid pagination cursor', exc_info=True)
         bad_request = {
