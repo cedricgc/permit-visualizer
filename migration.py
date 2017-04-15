@@ -76,6 +76,7 @@ def heatmap_pipeline():
                 'latitude': True,
                 'longitude': True,
                 'permit_type_desc': True,
+                'project_id': True,
             },
         },
     ]
