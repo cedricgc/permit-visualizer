@@ -141,7 +141,7 @@ def fetch_permits(client, dataset_id, permit_count, limit=25_000):
         query = {
             'select': '*',
             'where': 'issue_date IS NOT NULL',
-            'order': 'issue_date DESC',
+            'order': 'issue_date ASC',
             'limit': limit,
             'offset': page * limit
         }
