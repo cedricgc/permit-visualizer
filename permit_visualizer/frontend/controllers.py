@@ -31,6 +31,7 @@ Client facing pages scoped to main routes
 def index():
     return flask.render_template('index.html')
 
-@frontend_bp.route('/map', methods=['GET'])
+
+@frontend_bp.route('/map/', methods=['GET'])
 def map():
     return flask.render_template('map.html')
