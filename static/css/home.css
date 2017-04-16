@@ -1,0 +1,38 @@
+#map-selector {
+  height: 33%;
+  width: 100%;
+  background-color: #FFFFFF;
+  position: relative;
+}
+
+.under {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  font-size: 100px;
+  color: white;
+  text-shadow:
+  -1px -1px 0 #000,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
+  font-family: 'Teko', sans-serif;
+}
+
+.hovertext:hover {
+  opacity: .75;
+}
+
+
+.fill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden
+}
+
+.fill a img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%
+}
