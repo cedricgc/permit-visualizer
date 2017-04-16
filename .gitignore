@@ -92,3 +92,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+
+# sftp files
+.ftpconfig
+.DS_Store

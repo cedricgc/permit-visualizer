@@ -1,0 +1,23 @@
+
+{% extends "layout.html" %} {% block scripts %} {{ super() }}
+<script src='static/js/map.js'></script>
+{% endblock %} {% block content %}
+<script>
+  $("#reload").attr('disabled', false);
+</script>
+<script>
+    var map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 11,
+        center: new google.maps.LatLng(30.2672,-97.7431),
+        mapTypeId: 'hybrid'
+      });
+
+      createHeatmap(map);
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&v=3.exp&libraries=visualization">
+</script> ​
+<div id="map"></div>
+{% endblock %}
