@@ -49,6 +49,7 @@ def main():
     index.create_index([('project_id', pymongo.ASCENDING)], unique=True)
     index.create_index([('issue_date', pymongo.ASCENDING)])
     index.create_index([('permit_type_desc', pymongo.ASCENDING)])
+    index.create_index([('work_class', pymongo.ASCENDING)])
 
     log.info('Indexes on all_permits collection',
              indexes=index.index_information())
@@ -77,6 +78,7 @@ def heatmap_pipeline():
                 'longitude': True,
                 'permit_type_desc': True,
                 'project_id': True,
+                'work_class': True,
             },
         },
     ]

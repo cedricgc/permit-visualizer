@@ -42,7 +42,7 @@ def all_permits(limit, after=None):
     return permits, pagination_cursor
 
 
-def heatmap_permits(start, end, limit, permit_types=None, after=None):
+def heatmap_permits(start, end, limit, permit_types=None, work_classes=None, after=None):
     if not bson.objectid.ObjectId.is_valid(after) and after is not None:
         raise ValueError(f'{after} is not a valid MongoDB ObjectID')
 
@@ -59,6 +59,10 @@ def heatmap_permits(start, end, limit, permit_types=None, after=None):
     if permit_types is not None:
         query['permit_type_desc'] = {
             '$in': permit_types
+        }
+    if work_classes is not None:
+        query['work_class'] = {
+            '$in': work_classes
         }
 
     cursor = mongo.db['heatmap'].find(query).limit(limit)
