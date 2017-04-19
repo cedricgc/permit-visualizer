@@ -107,8 +107,8 @@ def heatmap():
         permits, cursor = models.heatmap_permits(start,
                                                  end,
                                                  limit,
-                                                 permit_types,
-                                                 after)
+                                                 permit_types=permit_types,
+                                                 after=after)
     except ValueError:
         log.error('Parameter was not a valid pagination cursor', exc_info=True)
         bad_request = {
