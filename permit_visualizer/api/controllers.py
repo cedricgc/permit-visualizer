@@ -82,12 +82,16 @@ def heatmap():
     # Permit types to filter by
     permit_types = flask.request.args.getlist('type', type=str) or None
 
+    # Work classes to filter by
+    work_classes = flask.request.args.getlist('class', type=str) or None
+
     log.debug('query parameters',
               limit=limit,
               after=after,
               start=start,
               end=end,
-              permit_types=permit_types)
+              permit_types=permit_types,
+              work_classes=work_classes)
 
     try:
         start = datetime.datetime.strptime(start, '%Y-%m-%d')
@@ -108,6 +112,7 @@ def heatmap():
                                                  end,
                                                  limit,
                                                  permit_types=permit_types,
+                                                 work_classes=work_classes,
                                                  after=after)
     except ValueError:
         log.error('Parameter was not a valid pagination cursor', exc_info=True)
