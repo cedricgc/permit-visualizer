@@ -103,7 +103,11 @@ def annual_count_by_type(start, end, permit_types=None, work_classes=None):
         },
         {
             '$group': {
-                '_id': '$permit_type_desc',
+                '_id': {
+                    'year': {
+                        '$year': '$issue_date',
+                    },
+                },
                 'count': {
                     '$sum': 1,
                 },
@@ -116,12 +120,12 @@ def annual_count_by_type(start, end, permit_types=None, work_classes=None):
         },
     ]
 
-    cursor = mongo.db['heatmap'].aggregate(query)
+    cursor = mongo.db['all_permits'].aggregate(query)
 
     summary = [stats for stats in cursor]
 
     for stats in summary:
-        stats['permit_type'] = stats['_id']
+        stats['year'] = stats['_id']['year']
         del stats['_id']
 
     return summary
