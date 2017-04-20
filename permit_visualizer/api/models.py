@@ -79,3 +79,53 @@ def heatmap_permits(start, end, limit, permit_types=None, work_classes=None, aft
         del permit['_id']
 
     return permits, pagination_cursor
+
+
+def annual_count_by_type(start, end, permit_types=None, work_classes=None):
+    match = {
+        'issue_date': {
+            '$gt': start,
+            '$lt': end,
+        },
+    }
+    if permit_types is not None:
+        match['permit_type_desc'] = {
+            '$in': permit_types
+        }
+    if work_classes is not None:
+        match['work_class'] = {
+            '$in': work_classes
+        }
+
+    query = [
+        {
+            '$match': match,
+        },
+        {
+            '$group': {
+                '_id': {
+                    'year': {
+                        '$year': '$issue_date',
+                    },
+                },
+                'count': {
+                    '$sum': 1,
+                },
+            },
+        },
+        {
+            '$sort': {
+                '_id': 1,
+            },
+        },
+    ]
+
+    cursor = mongo.db['all_permits'].aggregate(query)
+
+    summary = [stats for stats in cursor]
+
+    for stats in summary:
+        stats['year'] = stats['_id']['year']
+        del stats['_id']
+
+    return summary

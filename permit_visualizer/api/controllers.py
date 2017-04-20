@@ -96,6 +96,16 @@ def heatmap():
     try:
         start = datetime.datetime.strptime(start, '%Y-%m-%d')
         end = datetime.datetime.strptime(end, '%Y-%m-%d')
+    except TypeError:
+        log.error('start and end query params are required', exc_info=True)
+        bad_request = {
+            'errors': {
+                'start': ['Query parameter is required'],
+                'end': ['Query parameter is required']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
     except ValueError:
         log.error('Parameter was not a valid date', exc_info=True)
         bad_request = {
@@ -128,6 +138,65 @@ def heatmap():
         'count': len(permits),
         'cursor': cursor,
         'data': permits,
+    }
+
+    return flask.jsonify(response), 200
+
+
+@api_bp.route('/count/', methods=['GET'])
+def year_count():
+    log = structlog.get_logger().bind(request_id=str(uuid.uuid4()))
+
+    # Date parameters that bounds the query
+    start = flask.request.args.get('start', None, type=str)
+    end = flask.request.args.get('end', None, type=str)
+
+    # Permit types to filter by
+    permit_types = flask.request.args.getlist('type', type=str) or None
+
+    # Work classes to filter by
+    work_classes = flask.request.args.getlist('class', type=str) or None
+
+    log.debug('query parameters',
+              start=start,
+              end=end,
+              permit_types=permit_types,
+              work_classes=work_classes)
+
+    try:
+        start = datetime.datetime.strptime(start, '%Y-%m-%d')
+        end = datetime.datetime.strptime(end, '%Y-%m-%d')
+    except TypeError:
+        log.error('start and end query params are required', exc_info=True)
+        bad_request = {
+            'errors': {
+                'start': ['Query parameter is required'],
+                'end': ['Query parameter is required']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
+    except ValueError:
+        log.error('Parameter was not a valid date', exc_info=True)
+        bad_request = {
+            'errors': {
+                'start': ['Query parameter was not a valid date'],
+                'end': ['Query parameter was not a valid date']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
+
+    data = models.annual_count_by_type(start,
+                                       end,
+                                       permit_types=permit_types,
+                                       work_classes=work_classes)
+
+    log.debug('Data for year aggregation', data=data)
+
+    response = {
+        'count': len(data),
+        'data': data,
     }
 
     return flask.jsonify(response), 200
