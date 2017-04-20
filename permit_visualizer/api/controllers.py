@@ -96,6 +96,16 @@ def heatmap():
     try:
         start = datetime.datetime.strptime(start, '%Y-%m-%d')
         end = datetime.datetime.strptime(end, '%Y-%m-%d')
+    except TypeError:
+        log.error('start and end query params are required', exc_info=True)
+        bad_request = {
+            'errors': {
+                'start': ['Query parameter is required'],
+                'end': ['Query parameter is required']
+            }
+        }
+
+        return flask.jsonify(bad_request), 422
     except ValueError:
         log.error('Parameter was not a valid date', exc_info=True)
         bad_request = {
