@@ -1,0 +1,23 @@
+
+{% extends "layout.html" %}
+{% block scripts %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js">
+</script>
+<script src="static/js/graph.js">
+</script>
+{% endblock scripts %}
+{% block content %}
+<script>
+  $("#reload").attr('disabled', false);
+  $("#reload").attr('onclick', 'reloadGraph()');
+</script>
+<!DOCTYPE html>
+<div class="overlay">
+    <div id="loading-img"></div>
+</div>
+
+<div id="graph-container" style=" margin-top:50px">
+<canvas id="myChart" width="100%" height="100%" style="min-height: 500px;"></canvas>
+</div>
+{% endblock %}

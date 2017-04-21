@@ -13,6 +13,8 @@
     <link href="static/css/navbar.css" rel="stylesheet">
     <link href="static/css/map.css" rel="stylesheet">
     <link href="static/css/home.css" rel="stylesheet">
+    <link href="static/css/graph.css" rel="stylesheet">
+    <link href="static/css/about.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Comfortaa|Cuprum" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Teko:700" rel="stylesheet">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">​ <!-- Bootstrap Core JavaScript -->
@@ -41,32 +43,32 @@
               <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/" style="font-size: 30px"><b>Permit Visualizer</b></a>
           </div>
           <div class="collapse navbar-collapse navHeaderCollapse" id="bs-example-navbar-collapse-1">
-              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 3px; height: 50px">
                   <div class="navbar-btn" id='building-button'>
                       <label class="navbar-link" for="Building"><input class="autosubmit" id="Building" type="checkbox" value="true"> <span class="chkboxspan">Building</span></label>
                   </div>
               </form>
-              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 3px; height: 50px">
                   <div class="navbar-btn" id='plumbing-button'>
                       <label class="navbar-link" for="Plumbing"><input class="autosubmit" id="Plumbing" type="checkbox" value="true"> <span class="chkboxspan">Plumbing</span></label>
                   </div>
               </form>
-              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 3px; height: 50px">
                   <div class="navbar-btn" id='electrical-button'>
                       <label class="navbar-link" for="Electrical"><input class="autosubmit" id="Electrical" type="checkbox" value="true"> <span class="chkboxspan">Electrical</span></label>
                   </div>
               </form>
-              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 3px; height: 50px">
                   <div class="navbar-btn" id='mechanical-button'>
                       <label class="navbar-link" for="Mechanical"><input class="autosubmit" id="Mechanical" type="checkbox" value="true"> <span class="chkboxspan">Mechanical</span></label>
                   </div>
               </form>
-              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 3px; height: 50px">
                   <div class="navbar-btn" id='driveway-button'>
                       <label class="navbar-link" for="Driveway"><input class="autosubmit" id="Driveway" type="checkbox" value="true"> <span class="chkboxspan">Driveway/Sidewalk</span></label>
                   </div>
               </form>
-              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 7px; height: 50px">
+              <form class="navbar-form navbar-left" role="permit-types" style="padding:0px 3px; height: 50px">
                   <div class="navbar-btn" id='demolition-button'>
                       <label class="navbar-link" for="Demolition"><input class="autosubmit" id="Demolition" type="checkbox" value="true"> <span class="chkboxspan">Demolition</span></label>
                   </div>
@@ -74,9 +76,9 @@
               <form class="navbar-form navbar-left">
                   <button class="btn btn-default navbar-btn autosubmit" onclick="return reloadMap()" type="button" id="reload">Reload Data</button>
               </form>
-              <ul class="nav navbar-nav navbar-right">
+              <ul class="nav navbar-nav navbar-right" style="padding-right: 10px">
                   <li>
-                      <a href="#">About</a>
+                      <a href="/about">About</a>
                   </li>
               </ul>
               <ul class="nav navbar-nav navbar-right">

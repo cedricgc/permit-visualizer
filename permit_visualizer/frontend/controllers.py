@@ -35,3 +35,13 @@ def index():
 @frontend_bp.route('/map/', methods=['GET'])
 def map():
     return flask.render_template('map.html')
+
+
+@frontend_bp.route('/graph', methods=['GET'])
+def graph():
+    return flask.render_template('graph.html')
+
+
+@frontend_bp.route('/about', methods=['GET'])
+def about():
+    return flask.render_template('about.html')

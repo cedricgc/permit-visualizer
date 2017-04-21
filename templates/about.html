@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<script>
+  $("#reload").attr('disabled', true);
+</script>
+<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+<div class="about-cont">
+  <h1 class="header">About us: </h1>
+  <hr>
+  <p class="descrip">We are <a href="https://cityofaustin.github.io/innovation-fellows/">The City of Austin Innovation Fellows</a>, we launched our Design, Technology, and Innovation Fellows program in June 2016 as an opportunity for Austin’s passionate and civic-minded designers and developers to bring the principles, values, and practices of the technology sector into government.</p>
+  <p class="descrip">We collaborate with departments across the city to support projects that can benefit from our iterative, user-centered practices. </p>
+  <p class="descrip">We are changing up local government!</p>
+</div>
+<div class="about-cont">
+  <h1 class="header">About this site: </h1>
+  <hr>
+  <p class="descrip">The main issue that was presented to us was the large amount of data usable for permitting in Austin, but no easy way to see how it is distributed or what it even means.
+  Our goal was to make visualizations of this permitting data so that it can be seen in easily digestible chunks.</p>
+  <p class="descrip">The first visualization that we created was <a href="/map">the heatmap visualization</a>. This visualization helps show you the tpyes of permits you want to see and over the range of dates you want to see them in.
+  It then takes this data and grows slowly over time to show you how permitting data in austin has been affected by region, and what types of permits are prevalelt in different areas.</p>
+  <p class="descrip">(As a note of caution, depending on the range of dates, the application can become very memory intensive.)</p>
+  <p class="descrip"><a href="/graph">The Permit Graph</a> visualization takes a more minimalist approach, showing you the amount of permits for selectable permit types over a range of years decided by you.</p>
+</div>
+<div class="about-cont">
+  <h1 class="header">Resources: </h1>
+  <hr>
+  <p class="descrip">This project is open source and can be found under the Github repo:</p>
+  <p class="descrip"><a href="https://github.com/cedricgc/permit-visualizer">Permit-Visualizer</a></p>
+  <p class="descrip">List of technologies used:</p>
+  <ul>
+    <li class="descrip"><a href="https://www.mongodb.com/">MongoDB</a></li>
+    <li class="descrip"><a href="http://flask.pocoo.org/">Flask</a></li>
+    <li class="descrip"><a href="http://gunicorn.org/">Gunicorn</a></li>
+    <li class="descrip"><a href="https://developers.google.com/maps/">Google Maps API</a></li>
+    <li class="descrip"><a href="http://getbootstrap.com/">Bootstrap</a></li>
+    <li class="descrip"><a href="http://www.chartjs.org/">Chart.js</a></li>
+  </ul>
+</div>
+{% endblock %}
