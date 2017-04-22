@@ -1,21 +1,21 @@
 
 var buttons = ["Building", "Plumbing", "Electrical", "Mechanical", "Driveway"]
 var bgColor = [
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)'
+    'rgba(255, 153, 51, 0.2)',
+    'rgba(51, 51, 255, 0.2)',
+    'rgba(255, 51, 153, 0.2)',
+    'rgba(51, 255, 51, 0.2)',
+    'rgba(255, 255, 51, 0.2)',
+    'rgba(204, 0, 0, 0.2)'
 ]
 
 var bgBorder = [
-    'rgba(255,99,132,1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 159, 64, 1)'
+  'rgba(255, 153, 51, 1)',
+  'rgba(51, 51, 255, 1)',
+  'rgba(255, 51, 153, 1)',
+  'rgba(51, 255, 51, 1)',
+  'rgba(255, 255, 51, 1)',
+  'rgba(204, 0, 0, 1)'
 ]
 
 var globBarChart = null;
@@ -90,13 +90,24 @@ function reloadGraph() {
 function loadData(data) {
   var years = [];
   var counts = [];
+  var barTemp = [];
+  var borderTemp = [];
   var barColor = [];
   var borderColor = [];
+
+  for (var i = 0; i < buttons.length; i++) {
+    if($('#' + buttons[i]).is(":checked")) {
+      barTemp.push(bgColor[i]);
+      borderTemp.push(bgBorder[i]);
+    }
+  }
+
+
   for(var i = 0; i < data.count; i ++) {
     years.push(data.data[i].year);
     counts.push(data.data[i].count);
-    barColor.push(bgColor[i%6]);
-    borderColor.push(bgBorder[i%6])
+    barColor.push(barTemp[i%barTemp.length]);
+    borderColor.push(borderTemp[i%borderTemp.length])
   }
   createGraph(years, counts, barColor, borderColor);
 }
