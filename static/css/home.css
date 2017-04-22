@@ -1,5 +1,5 @@
 #map-selector {
-  height: 33%;
+  height: 50%;
   width: 100%;
   background-color: #FFFFFF;
   position: relative;
@@ -9,7 +9,7 @@
   position: absolute;
   bottom: 10px;
   left: 20px;
-  font-size: 100px;
+  font-size: 7vw;
   color: white;
   text-shadow:
   -1px -1px 0 #000,
@@ -35,4 +35,8 @@
   flex-shrink: 0;
   min-width: 100%;
   min-height: 100%
+}
+
+.home-text {
+
 }

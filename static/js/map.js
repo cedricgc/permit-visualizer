@@ -11,8 +11,16 @@ function reloadMap(){
   var arrayLength = buttons.length;
   for (var i = 0; i < arrayLength; i++) {
     if($('#' + buttons[i]).is(":checked")) {
-      url += "type=" + buttons[i] + "%20Permit&";
+      if(i != 4) {
+        url += "type=" + buttons[i] + "%20Permit&";
+      }
+      else {
+        url += "type=" + buttons[i] + "%20%2F%20Sidewalks&";
+      }
     }
+  }
+  if($('#Demolition').is(":checked")) {
+    url += 'class=Demolition&';
   }
   var start = $('#date1').val();
   var end = $('#date2').val();
@@ -49,9 +57,10 @@ function displayData(data) {
   var cursor = data.cursor;
   var count = data.count;
   if(cursor != null) {
-    $.getJSON(loadurl + "&after=" + cursor, displayData);
     addHeatmapPoints(data);
+    $.getJSON(loadurl + "&after=" + cursor, displayData);
   }
+   window.localStorage.clear();
 }
 
 function addHeatmapPoints(data) {
@@ -60,6 +69,7 @@ function addHeatmapPoints(data) {
       pointData.push(
         new google.maps.LatLng(data.data[i].latitude, data.data[i].longitude)
       );
+      console.log(pointData.size);
     }
   }
 }

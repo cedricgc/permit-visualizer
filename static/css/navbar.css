@@ -6,7 +6,7 @@
     margin-top: 5px;
     padding: 0px 0px 0px 0px;
     line-height: 40px;
-    width: 100px;
+    width: 75px;
     float:left;
 }
 
@@ -25,6 +25,7 @@
     float:left;
     border-radius: 5px;
     line-height: 40px;
+    font-size: 13px;
 }
 
 #building-button label input {
@@ -49,7 +50,7 @@
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     line-height: 40px;
-    width: 100px;
+    width: 75px;
     float:left;
     margin-top: 5px;
 }
@@ -69,6 +70,7 @@
     float:left;
     border-radius: 5px;
     line-height: 40px;
+        font-size: 13px;
 }
 
 #plumbing-button label input {
@@ -93,7 +95,7 @@
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     line-height: 40px;
-    width: 100px;
+    width: 75px;
     float:left;
     margin-top: 5px;
 }
@@ -113,6 +115,7 @@
     float:left;
     border-radius: 5px;
     line-height: 40px;
+        font-size: 13px;
 }
 
 #electrical-button label input {
@@ -157,6 +160,7 @@
     float:left;
     border-radius: 5px;
     line-height: 40px;
+        font-size: 13px;
 }
 
 #driveway-button label input {
@@ -181,7 +185,7 @@
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     line-height: 40px;
-    width: 100px;
+    width: 85px;
     float:left;
     margin-top: 5px;
 }
@@ -201,6 +205,7 @@
     float:left;
     border-radius: 5px;
     line-height: 40px;
+        font-size: 13px;
 }
 
 #mechanical-button label input {
@@ -225,7 +230,7 @@
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     line-height: 40px;
-    width: 100px;
+    width: 85px;
     float:left;
     margin-top: 5px;
 }
@@ -245,6 +250,7 @@
     float:left;
     border-radius: 5px;
     line-height: 40px;
+    font-size: 13px;
 }
 
 #demolition-button label input {
@@ -268,4 +274,45 @@
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;
+}
+
+@media (max-width: 1235px) {
+  .navbar-header {
+      float: none;
+  }
+  .navbar-left,.navbar-right {
+      float: none !important;
+  }
+  .navbar-toggle {
+      display: block;
+  }
+  .navbar-collapse {
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .navbar-fixed-top {
+      top: 0;
+      border-width: 0 0 1px;
+  }
+  .navbar-collapse.collapse {
+      display: none!important;
+  }
+  .navbar-nav {
+      float: none!important;
+      margin-top: 7.5px;
+  }
+  .navbar-nav>li {
+      float: none;
+  }
+  .navbar-nav>li>a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+  }
+  .collapse.in{
+      display:block !important;
+  }
+}
+.navHeaderCollapse.collapse.in {
+  max-height: 510px;
+  height: 510px !important;
 }
