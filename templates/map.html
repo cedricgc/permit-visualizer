@@ -17,7 +17,7 @@
       createHeatmap(map);
     }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&v=3.exp&libraries=visualization">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config['GOOGLE_MAPS_API_KEY'] }}&callback=initMap&v=3.exp&libraries=visualization">
 </script> ​
 <div id="map"></div>
 {% endblock %}
