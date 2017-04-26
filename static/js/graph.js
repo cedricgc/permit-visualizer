@@ -1,6 +1,5 @@
 
-var buttons = ["Building", "Plumbing", "Electrical", "Mechanical", "Driveway"]
-ns = ["Building", "Plumbing", "Electrical", "Mechanical", "Driveway", "Demolition"]
+var buttons = ["Building", "Plumbing", "Electrical", "Mechanical", "Driveway", "Demolition"]
 var bgColor = [
     'rgba(255, 153, 51, 0.2)',
     'rgba(51, 51, 255, 0.2)',
